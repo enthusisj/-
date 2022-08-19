@@ -105,7 +105,7 @@ myTag.outerHTML = '<ul id="new-list"><li>Exotic</li></ul>';
 ![outer2](images/outer2.jpeg)   
 
 ## ***element.textContent***
-* 요소 안의 내용들 중에서 HTML 태그 부분은 제외하고 텍스트만 가져옴. (내부에 있는 줄 바꿈이나 들여쓰기 모두 포함.)   
+* 요소 안의 내용들 중에서 HTML 태그 부분은 제외하고 텍스트**만** 가져옴. (내부에 있는 줄 바꿈이나 들여쓰기 모두 포함.)   
 ```javascript
 const myTag = document.querySelector('#list-1');
 
@@ -180,7 +180,9 @@ today.outerHTML = '<p>이전</p>' + today.outerHTML;
 
 const newToday = document.querySelector('#today');
 newToday.outerHTML = newToday.outerHTML + '<p>다음</p>';
-
+```
+위 코드처럼 하나하나 코딩 써줘야하는 번거로움이 있다. 밑에처럼 간단하게 써보자.
+```javascript
 // 요소 노드 추가하기
 const tomorrow = document.querySelector('#tomorrow');
 
@@ -213,11 +215,13 @@ const today = document.querySelector('#today');
 const tomorrow = document.querySelector('#tomorrow');
 
 // 노드 삭제하기: Node.remove()
-tomorrow.remove();
-today.children[2].remove();
+tomorrow.remove(); //내일 할일 목록 모두 삭제
+today.children[2].remove(); //오늘 할일 목록 중 세번째꺼 삭제
 
 // 노드 이동하기: prepend, append, before, after
-today.append(tomorrow.children[1]);
+today.append(tomorrow.children[1]); //내일 할일 목록 중 두번째 목록을 오늘 할일 목록 마지막에 이동하기
+
+//오늘할일 목록 중 두번째 목록을 내일 할일 목록 세번째에 이동하기
 tomorrow.children[1].after(today.children[1]);
 tomorrow.children[2].before(today.children[1]);
 tomorrow.lastElementChild.before(today.children[1]);
@@ -285,7 +289,7 @@ console.log(tomorrow.id);
 
 // class 속성
 console.log(item);
-console.log(item.className);
+console.log(item.className); //class이름은 자주 바뀌므로 주의
 
 // href 속성
 console.log(link);
@@ -298,6 +302,7 @@ console.log(tomorrow.href);
 
 1. style 프로퍼티 활용하기: ```element.style.styleName = 'value';```
 2. class 변경을 통해 간접적으로 스타일 적용하기: ```element.className, element.classList```   
+
 ## **8-1. classList의 유용한 메소드**
 ![jvscss](images/jvscss.jpeg)   
 
@@ -344,16 +349,18 @@ console.log(tomorrow.href);
 const today = document.querySelector('#today');
 const tomorrow = document.querySelector('#tomorrow');
 
-// elem.classList: add, remove, toggle
+// elem.classList: add(추가), remove(제거), toggle(있으면 제거 없으면 추가, boolean형태)
 const item = tomorrow.children[1];
 item.classList.add('done');
 item.classList.remove('done');
 item.classList.toggle('done');
 
 // elem.className
-today.children[1].className = 'done';
+today.children[1].className = 'done';// 단점: class 네임이 done으로 바뀌므로 기존 class 네임쓰고 싶다면?
+console.log(today.classList);
+console.log(today.children[1].classList);
 
-// style 프로퍼티
+// style 프로퍼티('-'써주지 말기->쓰면? 오류)
 today.children[0].style.textDecoration = 'line-through';
 today.children[0].style.backgroundColor = '#DDDDDD';
 today.children[2].style.textDecoration = 'line-through';
